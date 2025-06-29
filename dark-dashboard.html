@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>لوحة تحكم</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background-color: #111827; /* خلفية داكنة */
+    }
+  </style>
+</head>
+<body class="text-white font-sans">
+  <div class="max-w-6xl mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-4">🎛️ لوحة التحكم</h1>
+
+    <!-- معلومات المستخدم -->
+    <div class="bg-purple-900 rounded-xl p-4 mb-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="text-lg font-semibold">👋 أهلاً أحمد</p>
+          <p class="text-sm text-gray-300">الدور: <span id="roleLabel">صاحب مشكلة</span></p>
+          <p class="text-sm text-gray-300">🔢 نقاطك: 15</p>
+        </div>
+        <div class="flex gap-4">
+          <button onclick="showMessages()" class="bg-blue-600 text-white text-sm px-4 py-2 rounded hover:bg-blue-700">📩 الرسائل</button>
+          <button onclick="showSettings()" class="bg-gray-600 text-white text-sm px-4 py-2 rounded hover:bg-gray-700">⚙️ الإعدادات</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- تنبيهات -->
+    <div class="bg-yellow-100 border-l-4 border-yellow-400 text-yellow-900 p-4 mb-6 rounded">
+      <ul class="list-disc pl-5 text-sm">
+        <li>📩 وصلك عرض جديد على مشكلتك: "مشكلة في الواي فاي"</li>
+        <li>⭐ تم تقييمك من قبل مستخدم بعد حل المشكلة</li>
+      </ul>
+    </div>
+
+    <!-- إحصائيات -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-gray-800 p-4 rounded-xl text-center">
+        <p class="text-xl font-bold">4</p>
+        <p class="text-sm text-gray-400">مشاكل منشورة</p>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-xl text-center">
+        <p class="text-xl font-bold">7</p>
+        <p class="text-sm text-gray-400">عروض قُدمت</p>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-xl text-center">
+        <p class="text-xl font-bold">4.8 ⭐</p>
+        <p class="text-sm text-gray-400">متوسط التقييم</p>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-xl text-center">
+        <p class="text-xl font-bold">15</p>
+        <p class="text-sm text-gray-400">النقاط الحالية</p>
+      </div>
+    </div>
+
+    <!-- سجل النشاط -->
+    <div class="mb-6">
+      <h2 class="text-lg font-bold mb-2">🕓 سجل نشاطك الأخير</h2>
+      <ul class="list-disc pl-5 text-sm text-gray-300">
+        <li>📝 نشرت مشكلة بعنوان "مشكلة في الواي فاي"</li>
+        <li>📬 قدمت عرضًا على مشكلة "مشكلة في الطابعة"</li>
+        <li>⭐ قيّمت أحد المستخدمين بعد استلام حل</li>
+      </ul>
+    </div>
+
+    <!-- التبويبات -->
+    <div class="flex gap-4 border-b border-gray-600 mb-4">
+      <button onclick="setTab('problems')" class="pb-2 border-b-2 border-purple-600 font-semibold">📌 مشاكلي</button>
+      <button onclick="setTab('offers')" class="pb-2 text-gray-400 hover:text-white">📩 عروضي</button>
+      <button onclick="setTab('reviews')" class="pb-2 text-gray-400 hover:text-white">⭐ تقييماتي</button>
+      <button onclick="setTab('stats')" class="pb-2 text-gray-400 hover:text-white">📊 إحصائياتي</button>
+    </div>
+
+    <!-- محتوى التبويبات -->
+    <div id="tabContent" class="text-sm space-y-4">
+      <!-- يتم إدخال المحتوى باستخدام JavaScript -->
+    </div>
+
+    <!-- عرض محتوى الإعدادات أو الرسائل -->
+    <div id="content" class="bg-gray-800 p-6 rounded-lg mt-6">
+      <!-- هذا المحتوى سيتم تغييره بناءً على الأزرار -->
+    </div>
+  </div>
+
+  <script>
+    let role = "problemOwner";
+    let tab = "problems";
+
+    const roleLabel = document.getElementById("roleLabel");
+    const tabContent = document.getElementById("tabContent");
+    const content = document.getElementById("content");
+
+    function toggleRole() {
+      role = role === "problemOwner" ? "solver" : "problemOwner";
+      roleLabel.innerText = role === "problemOwner" ? "صاحب مشكلة" : "خبير / مقدم حلول";
+      document.querySelector("button[onclick='toggleRole()']").innerText =
+        "🔁 بدّل إلى " + (role === "problemOwner" ? "خبير" : "صاحب مشكلة");
+    }
+
+    function setTab(selectedTab) {
+      tab = selectedTab;
+      document.querySelectorAll(".border-b-2").forEach(el => el.classList.remove("border-purple-600", "font-semibold"));
+      document.querySelectorAll(".flex button").forEach(btn => {
+        if (btn.innerText.includes(tabToLabel(tab))) {
+          btn.classList.add("border-b-2", "border-purple-600", "font-semibold");
+        } else {
+          btn.classList.remove("border-b-2", "border-purple-600", "font-semibold");
+        }
+      });
+      renderTabContent();
+    }
+
+    function tabToLabel(tabKey) {
+      return {
+        problems: "مشاكلي",
+        offers: "عروضي",
+        reviews: "تقييماتي",
+        stats: "إحصائياتي"
+      }[tabKey];
+    }
+
+    function renderTabContent() {
+      const tabs = {
+        problems: `
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="border rounded p-4 bg-gray-800">
+              <div class="text-sm text-gray-400 mb-1">📁 تقنية | ⏱️ منذ 3 أيام | 💰 مدفوع</div>
+              <h2 class="font-bold text-lg mb-1 text-white">مشكلة في الواي فاي</h2>
+              <p class="text-gray-300 mb-2">بعد التحديث، الاتصال بالشبكة صار يقطع باستمرار...</p>
+              <p class="text-gray-500">🔄 الحالة: بانتظار عروض</p>
+            </div>
+            <div class="border rounded p-4 bg-gray-800">
+              <div class="text-sm text-gray-400 mb-1">📁 قانونية | ⏱️ منذ 1 يوم | ✅ مجاني</div>
+              <h2 class="font-bold text-lg mb-1 text-white">استشارة عن عقد إيجار</h2>
+              <p class="text-gray-300 mb-2">هل العقد فيه بند يسمح بفسخه قبل انتهاء المدة؟...</p>
+              <p class="text-gray-500">🔄 الحالة: يوجد عرض قيد المراجعة</p>
+            </div>
+          </div>`,
+        offers: `
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="border rounded p-4 bg-gray-800">
+              <div class="flex justify-between text-sm mb-1">
+                <span class="text-purple-400 font-semibold">💼 مشكلة في الطابعة</span>
+                <span class="text-yellow-400">⏳ قيد المراجعة</span>
+              </div>
+              <p class="text-gray-300 mb-2">اقترحت تنظيف الدرايفرات وتعريف الطابعة من جديد باستخدام موقع الشركة.</p>
+              <p class="text-gray-500 mb-1">💰 السعر: مجاني</p>
+              <p class="text-gray-500 mb-1">⏱️ المدة: يومان</p>
+              <p class="text-gray-500">👁️ تم الاطلاع على العرض</p>
+            </div>
+            <div class="border rounded p-4 bg-gray-800">
+              <div class="flex justify-between text-sm mb-1">
+                <span class="text-purple-400 font-semibold">📱 مشكلة في تطبيق</span>
+                <span class="text-green-400">✅ تم القبول</span>
+              </div>
+              <p class="text-gray-300 mb-2">تم تحديد المشكلة بأنها تعارض إصدار جديد واقترحت حل بديل إلى حين التحديث.</p>
+              <p class="text-gray-500 mb-1">💰 السعر: 10 دنانير</p>
+              <p class="text-gray-500 mb-1">⏱️ المدة: يوم واحد</p>
+              <p class="text-gray-500">⭐ تقييمك: 5 / 5</p>
+            </div>
+          </div>`,
+        reviews: `
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="border rounded p-4 bg-gray-800">
+              <p class="text-sm text-gray-400 mb-1">💼 من: صاحب مشكلة - 20/6/2025</p>
+              <p class="text-gray-300 mb-2">شكراً جدًا على الحل السريع والواضح للمشكلة. كان ردك سريع ومباشر.</p>
+              <p class="text-yellow-400">⭐ ⭐ ⭐ ⭐ ⭐</p>
+            </div>
+            <div class="border rounded p-4 bg-gray-800">
+              <p class="text-sm text-gray-400 mb-1">💼 من: صاحب مشكلة - 18/6/2025</p>
+              <p class="text-gray-300 mb-2">الحل جيد لكن تأخر الرد، أتمنى سرعة أكثر في المستقبل.</p>
+              <p class="text-yellow-400">⭐ ⭐ ⭐ ⭐</p>
+            </div>
+          </div>`,
+        stats: `
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="border rounded p-4 bg-gray-800">
+              <p class="text-lg font-semibold mb-2 text-white">📈 عروضك</p>
+              <ul class="text-gray-300 list-disc pl-5">
+                <li>عدد العروض المقدّمة: 12</li>
+                <li>العروض المقبولة: 5</li>
+                <li>العروض المرفوضة: 3</li>
+                <li>بانتظار رد: 4</li>
+              </ul>
+            </div>
+            <div class="border rounded p-4 bg-gray-800">
+              <p class="text-lg font-semibold mb-2 text-white">⭐ تقييمك</p>
+              <ul class="text-gray-300 list-disc pl-5">
+                <li>متوسط التقييم: 4.6 من 5</li>
+                <li>عدد التقييمات: 9</li>
+                <li>أعلى تقييم: 5</li>
+                <li>أقل تقييم: 3</li>
+              </ul>
+            </div>
+            <div class="border rounded p-4 bg-gray-800">
+              <p class="text-lg font-semibold mb-2 text-white">💰 المساهمة المجانية</p>
+              <ul class="text-gray-300 list-disc pl-5">
+                <li>عدد الحلول المجانية: 6</li>
+                <li>النقاط المكتسبة: 15 نقطة</li>
+                <li>المركز الحالي في قائمة المتصدرين: #3</li>
+              </ul>
+            </div>
+          </div>`
+      };
+      tabContent.innerHTML = tabs[tab];
+    }
+
+    function showMessages() {
+      content.innerHTML = `
+        <h2 class="text-xl font-bold mb-4">📩 الرسائل</h2>
+        <div class="space-y-4">
+          <div class="bg-gray-800 p-4 rounded-lg">
+            <p class="text-gray-300">📩 رسالة من: أحمد</p>
+            <p class="text-white">"تم قبول عرضك لحل المشكلة المتعلقة بالإنترنت، سيتم التواصل معك قريبًا!"</p>
+            <p class="text-sm text-gray-400">📅 التاريخ: 20/06/2025</p>
+          </div>
+          <div class="bg-gray-800 p-4 rounded-lg">
+            <p class="text-gray-300">📩 رسالة من: خالد</p>
+            <p class="text-white">"شكرًا على عرضك لحل المشكلة القانونية، تم رفض العرض من قبل العميل."</p>
+            <p class="text-sm text-gray-400">📅 التاريخ: 19/06/2025</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function showSettings() {
+      content.innerHTML = `
+        <h2 class="text-xl font-bold mb-4">⚙️ الإعدادات</h2>
+        <div class="bg-gray-800 p-4 rounded-lg mb-6">
+          <h3 class="text-lg font-semibold mb-2 text-white">تعديل المعلومات الشخصية</h3>
+          <form>
+            <div class="mb-4">
+              <label for="email" class="block text-sm text-gray-300 mb-1">البريد الإلكتروني</label>
+              <input type="email" id="email" class="w-full p-2 bg-gray-700 text-white rounded" placeholder="أدخل بريدك الإلكتروني" />
+            </div>
+            <div class="mb-4">
+              <label for="password" class="block text-sm text-gray-300 mb-1">كلمة المرور</label>
+              <input type="password" id="password" class="w-full p-2 bg-gray-700 text-white rounded" placeholder="أدخل كلمة المرور" />
+            </div>
+            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">تحديث الحساب</button>
+          </form>
+        </div>
+      `;
+    }
+
+    // عرض التبويب الأول عند تحميل الصفحة
+    renderTabContent();
+  </script>
+</body>
+</html>

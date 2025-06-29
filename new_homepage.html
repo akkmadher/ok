@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مشكلتي - الصفحة الرئيسية</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slide-up {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .animate-fade-in {
+      animation: fade-in 1.5s ease-out;
+    }
+    .animate-slide-up {
+      animation: slide-up 1s ease-out;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white min-h-screen font-sans">
+
+  <!-- الشريط العلوي -->
+  <header class="bg-blue-900 text-white p-6 text-center text-3xl font-extrabold shadow-xl tracking-wide animate-fade-in">
+    مشكلتي
+  </header>
+
+  <!-- قسم التعريف -->
+  <section class="text-center py-20 px-6 animate-slide-up">
+    <h1 class="text-5xl font-black mb-6 drop-shadow-xl">عندك مشكلة؟ هون بتلقى اللي يسمعك… ويفيدك.</h1>
+    <p class="text-xl max-w-2xl mx-auto text-gray-300">
+      منصة مجتمعية ذكية بتربط بين الناس اللي عندهم مشاكل حقيقية، وأشخاص مستعدين يساعدوا بخبرتهم أو تجربتهم، بكل خصوصية وأمان.
+    </p>
+    <div class="mt-8">
+      <button onclick="window.location.href='new_auth.html'" class="bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-800 hover:to-blue-600 transition px-8 py-4 rounded-full font-bold text-lg shadow-lg transform hover:scale-105">
+        تسجيل الدخول
+      </button>
+    </div>
+  </section>
+
+  <!-- المميزات -->
+  <section class="bg-gray-800 py-20 px-6">
+    <h2 class="text-3xl font-bold text-center mb-12">ليش تختار مشكلتي؟</h2>
+    <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+      <div class="bg-gradient-to-r from-blue-900 via-gray-800 to-blue-900 p-6 rounded-xl shadow-md text-right hover:scale-[1.02] transition">
+        <h3 class="text-xl font-bold mb-2 text-blue-200">هوية مخفية</h3>
+        <p class="text-gray-300">انشر مشكلتك بدون اسم أو صورة – وارتاح.</p>
+      </div>
+      <div class="bg-gradient-to-r from-blue-900 via-gray-800 to-blue-900 p-6 rounded-xl shadow-md text-right hover:scale-[1.02] transition">
+        <h3 class="text-xl font-bold mb-2 text-blue-200">حلول من خبراء ومجرّبين</h3>
+        <p class="text-gray-300">كل مشكلة ممكن تلاقي إلها شخص فاهم يساعدك.</p>
+      </div>
+      <div class="bg-gradient-to-r from-blue-900 via-gray-800 to-blue-900 p-6 rounded-xl shadow-md text-right hover:scale-[1.02] transition">
+        <h3 class="text-xl font-bold mb-2 text-blue-200">تدعم المجاني والمدفوع</h3>
+        <p class="text-gray-300">اختار حسب حاجتك وارتياحك – ما في ضغط.</p>
+      </div>
+      <div class="bg-gradient-to-r from-blue-900 via-gray-800 to-blue-900 p-6 rounded-xl shadow-md text-right hover:scale-[1.02] transition">
+        <h3 class="text-xl font-bold mb-2 text-blue-200">خصوصيتك أولاً</h3>
+        <p class="text-gray-300">الدردشة والبيانات محمية ومحدودة بين الطرفين فقط.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- معاينة مشاكل منشورة -->
+  <section class="py-20 px-6">
+    <h2 class="text-3xl font-bold text-center mb-12">مشاكل منشورة مؤخرًا</h2>
+    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div class="border border-blue-500 rounded-xl p-4 shadow-lg text-right bg-gray-900">
+        <div class="text-sm text-blue-400 mb-1">تقنية</div>
+        <h4 class="text-lg font-semibold text-white">مشكلتي مع لابتوبي بعد آخر تحديث</h4>
+        <button onclick="window.location.href='client-dashboard.html'" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">تواصل مع صاحب المشكلة</button>
+      </div>
+      <div class="border border-blue-500 rounded-xl p-4 shadow-lg text-right bg-gray-900">
+        <div class="text-sm text-blue-400 mb-1">زراعية</div>
+        <h4 class="text-lg font-semibold text-white">عندي أرض زراعية فيها ملوحة عالية</h4>
+        <button onclick="window.location.href='client-dashboard.html'" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">تواصل مع صاحب المشكلة</button>
+      </div>
+      <div class="border border-blue-500 rounded-xl p-4 shadow-lg text-right bg-gray-900">
+        <div class="text-sm text-blue-400 mb-1">قانونية</div>
+        <h4 class="text-lg font-semibold text-white">استشارة قانونية بخصوص عقد شراكة</h4>
+        <button onclick="window.location.href='client-dashboard.html'" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">تواصل مع صاحب المشكلة</button>
+      </div>
+    </div>
+    <div class="text-center mt-10">
+      <button onclick="window.location.href='new_auth.html'" class="underline text-blue-400 hover:text-blue-200 transition text-lg">سجّل الدخول لرؤية التفاصيل</button>
+    </div>
+  </section>
+
+  <!-- الإحصائيات -->
+  <section class="bg-gray-900 py-16 text-center animate-fade-in">
+    <div class="text-2xl font-bold mb-6">منصة حية وبتتطور كل يوم</div>
+    <div class="flex justify-center gap-10 text-xl font-medium">
+      <div>👤 <span class="text-blue-400">532</span> مستخدم</div>
+      <div>📝 <span class="text-blue-400">126</span> مشكلة</div>
+      <div>✅ <span class="text-blue-400">78</span> تم حلّها</div>
+    </div>
+  </section>
+
+  <!-- قائمة المتصدرين -->
+  <section class="py-20 px-6 text-center bg-gray-800">
+    <h2 class="text-3xl font-bold mb-10">🏅 قائمة المتصدرين لهذا الشهر</h2>
+    <div class="max-w-md mx-auto space-y-4 text-lg">
+      <div class="bg-gray-900 rounded-xl p-4 shadow-lg">🥇 محمد سالم — <span class="text-blue-300">14</span> حل — 140 نقطة</div>
+      <div class="bg-gray-900 rounded-xl p-4 shadow-lg">🥈 User#8291 — <span class="text-blue-300">10</span> حلول — 100 نقطة</div>
+      <div class="bg-gray-900 rounded-xl p-4 shadow-lg">🥉 رانيا.خ — <span class="text-blue-300">9</span> حلول — 90 نقطة</div>
+    </div>
+    <p class="mt-6 text-sm text-gray-400">🎁 أعلى مساهم يحصل على جائزة شهرية!</p>
+  </section>
+
+  <!-- تسجيل الدخول / الحساب -->
+  <section class="text-center py-16 animate-slide-up">
+    <h3 class="text-2xl font-bold mb-6">جاهز تشارك؟</h3>
+    <div class="flex justify-center gap-6">
+      <button onclick="window.location.href='new_auth.html'" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl transition shadow-md">سجّل كمستخدم</button>
+    </div>
+  </section>
+
+  <!-- الفوتر -->
+  <footer class="bg-blue-900 text-white py-6 text-center text-sm">
+    &copy; 2025 مشكلتي. كل الحقوق محفوظة.
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>لوحة تحكم المستخدم</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-gray-900 text-white p-6 font-sans">
+  <header class="flex justify-between items-center mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-blue-400">لوحة التحكم</h1>
+      <p class="text-lg mt-2 text-gray-300">مرحبًا بك، 👋 أحمد</p>
+    </div>
+    <button onclick="goToAccountPage()" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-xl text-sm">👤 حسابي</button>
+  </header>
+
+  <div class="flex flex-wrap justify-between gap-4 mb-6">
+    <div class="flex gap-4">
+      <button onclick="showSection('list')" class="px-4 py-2 rounded-xl bg-blue-700" id="btn-list">📋 المشاكل المنشورة</button>
+      <button onclick="showSection('add')" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700" id="btn-add">➕ أضف مشكلة</button>
+    </div>
+    <div class="flex gap-2">
+      <select onchange="filterProblems()" id="filter-category" class="bg-gray-800 text-white rounded-xl px-3 py-2">
+        <option>الكل</option>
+        <option>تقنية</option>
+        <option>قانونية</option>
+        <option>زراعية</option>
+        <option>اجتماعية</option>
+        <option>صحية</option>
+      </select>
+      <select onchange="filterProblems()" id="filter-location" class="bg-gray-800 text-white rounded-xl px-3 py-2">
+        <option>الكل</option>
+        <option>عمان</option>
+        <option>الزرقاء</option>
+        <option>إربد</option>
+        <option>مادبا</option>
+        <option>الكرك</option>
+      </select>
+      <select onchange="filterProblems()" id="filter-type" class="bg-gray-800 text-white rounded-xl px-3 py-2">
+        <option>الكل</option>
+        <option>مجانية</option>
+        <option>مدفوعة</option>
+      </select>
+    </div>
+  </div>
+
+  <section id="section-list">
+    <h2 class="text-2xl font-semibold mb-6 text-blue-300">مشاكل منشورة</h2>
+    <div id="problems-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </section>
+
+  <section id="section-add" class="hidden bg-gray-800 p-6 rounded-xl max-w-xl mx-auto">
+    <h2 class="text-xl font-bold mb-4 text-blue-300">📝 أضف مشكلتك</h2>
+    <form class="space-y-4">
+      <div>
+        <label class="block mb-1">عنوان المشكلة</label>
+        <input type="text" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="مثال: مشكلة في الإنترنت" />
+      </div>
+      <div>
+        <label class="block mb-1">وصف المشكلة</label>
+        <textarea class="w-full p-2 rounded bg-gray-700 text-white" rows="4" placeholder="اشرح المشكلة بالتفصيل..."></textarea>
+      </div>
+      <div>
+        <label class="block mb-1">تصنيف المشكلة</label>
+        <select class="w-full p-2 rounded bg-gray-700 text-white">
+          <option>تقنية</option>
+          <option>قانونية</option>
+          <option>زراعية</option>
+          <option>اجتماعية</option>
+          <option>صحية</option>
+        </select>
+      </div>
+      <div>
+        <label class="block mb-1">نوع المشكلة</label>
+        <select class="w-full p-2 rounded bg-gray-700 text-white">
+          <option>مجانية</option>
+          <option>مدفوعة</option>
+        </select>
+      </div>
+      <div>
+        <label class="block mb-1">المبلغ المقترح (اختياري)</label>
+        <input type="number" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="مثال: 10 دينار" />
+      </div>
+      <div>
+        <label class="block mb-1">الموقع الجغرافي</label>
+        <select class="w-full p-2 rounded bg-gray-700 text-white">
+          <option>عمان</option>
+          <option>الزرقاء</option>
+          <option>إربد</option>
+          <option>مادبا</option>
+          <option>الكرك</option>
+        </select>
+      </div>
+      <button type="button" class="bg-blue-600 hover:bg-blue-700 w-full py-2 rounded text-white">نشر المشكلة</button>
+    </form>
+  </section>
+
+  <!-- نموذج عرض الحل -->
+  <div id="offer-form" class="hidden bg-gray-800 p-6 rounded-xl max-w-xl mx-auto mt-6">
+    <h2 class="text-xl font-bold mb-4 text-blue-300">📨 قدّم عرضك لحل المشكلة</h2>
+    <form class="space-y-4" onsubmit="handleOfferSubmit(event)">
+      <div>
+        <label class="block mb-1">شرح فكرتك لحل المشكلة</label>
+        <textarea id="offer-description" class="w-full p-2 rounded bg-gray-700 text-white" rows="4" placeholder="اشرح فكرتك بوضوح..." required></textarea>
+      </div>
+
+      <div>
+        <label class="block mb-1">هل عرضك مجاني؟</label>
+        <input type="checkbox" id="freeCheckbox" onchange="togglePaid()" checked />
+        <span class="ml-2">نعم، هذا العرض مجاني</span>
+      </div>
+
+      <div id="priceSection" style="display: none;">
+        <label class="block mb-1">سعر العرض</label>
+        <input type="number" id="price" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="مثال: 8" />
+      </div>
+
+      <div>
+        <label class="block mb-1">المدة الزمنية المتوقعة (اختياري)</label>
+        <input type="text" id="duration" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="مثال: يومين" />
+      </div>
+
+      <button type="submit" class="bg-purple-700 text-white px-6 py-2 rounded hover:bg-purple-800">
+        إرسال العرض
+      </button>
+    </form>
+  </div>
+
+  <script>
+    const problems = [
+      {
+        title: "مشكلة في شبكة الإنترنت المنزلية",
+        category: "تقنية",
+        type: "مدفوعة",
+        price: "10 دينار",
+        location: "عمان",
+        status: "بانتظار عروض"
+      },
+      {
+        title: "هل عقد الإيجار يلزمني بدفع الصيانة؟",
+        category: "قانونية",
+        type: "مجانية",
+        price: "-",
+        location: "الزرقاء",
+        status: "تم الحل"
+      },
+      {
+        title: "طريقة زراعة النعناع في حوض صغير",
+        category: "زراعية",
+        type: "مجانية",
+        price: "-",
+        location: "إربد",
+        status: "بانتظار عروض"
+      }
+    ];
+
+    function renderProblems(list) {
+      const container = document.getElementById("problems-container");
+      container.innerHTML = "";
+      list.forEach(p => {
+        container.innerHTML += `
+          <div class="bg-gray-800 p-4 rounded-xl shadow">
+            <div class="text-sm text-blue-400 mb-1">${p.category} | 📍 ${p.location}</div>
+            <h3 class="text-lg font-bold mb-2">${p.title}</h3>
+            <div class="text-sm text-gray-300">النوع: ${p.type}</div>
+            ${p.type === "مدفوعة" ? `<div class="text-sm text-green-400">المبلغ المقترح: ${p.price}</div>` : ""}
+            <div class="text-sm text-gray-400 mt-2">🔄 الحالة: ${p.status}</div>
+            <button onclick="showOfferForm('${p.title}')" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded mt-2 w-full">📨 تقديم عرض لحل المشكلة</button>
+          </div>
+        `;
+      });
+    }
+
+    function showOfferForm(problemTitle) {
+      const offerForm = document.getElementById("offer-form");
+      offerForm.classList.remove("hidden");
+      document.getElementById("section-list").classList.add("hidden");
+      document.getElementById("section-add").classList.add("hidden");
+
+      console.log("تقديم عرض لحل المشكلة:", problemTitle);
+    }
+
+    function togglePaid() {
+      const isFree = document.getElementById('freeCheckbox').checked;
+      document.getElementById('priceSection').style.display = isFree ? 'none' : 'block';
+    }
+
+    function handleOfferSubmit(e) {
+      e.preventDefault();
+      const description = document.getElementById('offer-description').value;
+      const isPaid = !document.getElementById('freeCheckbox').checked;
+      const price = isPaid ? document.getElementById('price').value : 0;
+      const duration = document.getElementById('duration').value;
+
+      const offer = {
+        description,
+        isPaid,
+        price,
+        duration
+      };
+
+      console.log("عرض مقدم:", offer);
+      alert("تم إرسال العرض بنجاح!");
+    }
+
+    function filterProblems() {
+      const category = document.getElementById("filter-category").value;
+      const location = document.getElementById("filter-location").value;
+      const type = document.getElementById("filter-type").value;
+
+      const filtered = problems.filter(p =>
+        (category === "الكل" || p.category === category) &&
+        (location === "الكل" || p.location === location) &&
+        (type === "الكل" || p.type === type)
+      );
+
+      renderProblems(filtered);
+    }
+
+    function showSection(section) {
+      document.getElementById("section-list").classList.add("hidden");
+      document.getElementById("section-add").classList.add("hidden");
+      document.getElementById("btn-list").classList.remove("bg-blue-700");
+      document.getElementById("btn-add").classList.remove("bg-blue-700");
+
+      if (section === "list") {
+        document.getElementById("section-list").classList.remove("hidden");
+        document.getElementById("btn-list").classList.add("bg-blue-700");
+      } else {
+        document.getElementById("section-add").classList.remove("hidden");
+        document.getElementById("btn-add").classList.add("bg-blue-700");
+      }
+    }
+
+    // عرض المشاكل عند تحميل الصفحة
+    renderProblems(problems);
+  </script>
+</body>
+</html>
